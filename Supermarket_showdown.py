@@ -655,7 +655,6 @@ def game_logic(name):
             
             
         if grid[STAFF_EXIT]['status'] == "closed" and KEYCARD in player['s_inventory']:#if the player has keycard
-            print("farts")
             open_staffroom(grid)
             
         if neil_collision(player, neil): #if Neil catches player
@@ -672,10 +671,6 @@ def game_logic(name):
             open_checkout(grid, game_state) #attempt to open checkouts
         else:
             player['move_penalty'] = False #reset move penalty flag
-            
-        if grid[STAFF_EXIT]['status'] == "closed" and KEYCARD in player['s_inventory']:#if the player has keycard
-            print("farts")
-            open_staffroom(grid)
             
         if not game_state['keycard'] and len(get_stocked_rooms(grid)) == NEEDED_STOCKED_ROOMS: #golden keycard spawn conditions
             game_state['keycard'] = True
