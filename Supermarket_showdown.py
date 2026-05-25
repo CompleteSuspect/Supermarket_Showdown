@@ -76,7 +76,7 @@ def check_closed_room(grid, location):
 
 def open_staffroom(grid):
     grid[STAFF_EXIT]['status'] = "open"
-    print(f"You have the {KEYCARD}. Get to the staff exit to exit the game!!")
+    print(f"\n******You have the {KEYCARD}. Get to the staff exit to exit the game!!******\n")
     return None
 
 
