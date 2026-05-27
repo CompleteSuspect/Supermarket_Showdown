@@ -624,10 +624,12 @@ def display_grid(grid, player, neil):
                 tag = "S"
             elif location == CHECKOUTS:
                 tag = "C"
+            elif location in player['seen']:
+                tag = "."
             elif room['stocked']:
                 tag = "O"
             else:
-                tag = "."
+                tag = " "
 
             row.append(tag)
          
@@ -656,10 +658,6 @@ def game_logic(name):
             
         if grid[STAFF_EXIT]['status'] == "closed" and KEYCARD in player['s_inventory']:#if the player has keycard
             open_staffroom(grid)
-            
-        if neil_collision(player, neil): #if Neil catches player
-            print(f"Turns taken: {game_state['turns']}")
-            return None #player has lost!
         
         if not player['move_penalty']: 
             move_player(grid, player) #main player turn function
@@ -671,6 +669,11 @@ def game_logic(name):
             open_checkout(grid, game_state) #attempt to open checkouts
         else:
             player['move_penalty'] = False #reset move penalty flag
+            
+        if neil_collision(player, neil): #if Neil catches player
+            display_grid(grid, player, neil)
+            print(f"Turns taken: {game_state['turns']}")
+            return None #player has lost!
             
         if not game_state['keycard'] and len(get_stocked_rooms(grid)) == NEEDED_STOCKED_ROOMS: #golden keycard spawn conditions
             game_state['keycard'] = True
@@ -696,9 +699,14 @@ def game_logic(name):
             print(f"Neil anger level: {neil['anger']}")
             for _ in range(n_turns):
                 neil_turn(grid, player, neil)
-                
         else:
             neil['move_penalty'] = False #reset move penalty flag
+            
+        if neil_collision(player, neil): #if Neil catches player
+            display_grid(grid, player, neil)
+            print(f"Turns taken: {game_state['turns']}")
+            return None #player has lost!
+        
     return None
 
 def main():
